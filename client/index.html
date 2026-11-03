@@ -530,14 +530,13 @@
       lastUpdated.textContent = 'Synchronizing...';
 
       try {
-        const url = currentProviderFilter === 'all' ? '/slots' : `/slots?provider=${encodeURIComponent(currentProviderFilter)}`;
-        const res = await fetch(url, { headers: HEADERS });
+        const res = await fetch('/slots', { headers: HEADERS });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
         allSlots = data.slots || [];
-        renderSlots(allSlots);
         updateProviderFilters();
-        lastUpdated.textContent = `Live · ${new Date().toLocaleTimeString()}`;
+        renderSlots();
+        lastUpdated.textContent = `Live · ${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}`;
       } catch (err) {
         console.error('Failed to load slots:', err);
         slotsContainer.innerHTML = `
@@ -572,7 +571,7 @@
         const btn = document.createElement('button');
         const isActive = currentProviderFilter === provider;
         btn.type = 'button';
-        btn.className = `doctor-filter-pill inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all shrink-0 ${
+        btn.className = `doctor-filter-pill inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all shrink-0 whitespace-nowrap ${
           isActive ? 'bg-primary text-on-primary active-pill shadow-sm' : 'bg-surface-container-low text-on-surface hover:bg-surface-container'
         }`;
         btn.setAttribute('data-filter', provider);
@@ -585,37 +584,51 @@
         btn.addEventListener('click', () => {
           currentProviderFilter = provider;
           updateFilterPills();
-          loadSlots();
+          renderSlots();
         });
         doctorFilters.appendChild(btn);
       });
+
+      updateFilterPills();
     }
 
     function updateFilterPills() {
       const doctorFilters = document.getElementById('doctor-filters');
-      const allBtn = doctorFilters.querySelector('[data-filter="all"]');
-      if (currentProviderFilter === 'all') {
-        allBtn.className = 'doctor-filter-pill active-pill inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium bg-primary text-on-primary transition-all shrink-0 shadow-sm';
-      } else {
-        allBtn.className = 'doctor-filter-pill inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium bg-surface-container-low text-on-surface hover:bg-surface-container transition-all shrink-0';
-      }
+      const allButtons = doctorFilters.querySelectorAll('.doctor-filter-pill');
+      allButtons.forEach(btn => {
+        const filterVal = btn.getAttribute('data-filter');
+        const isActive = currentProviderFilter === filterVal;
+        const countSpan = btn.querySelector('span:last-child');
+        if (isActive) {
+          btn.className = 'doctor-filter-pill active-pill inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium bg-primary text-on-primary transition-all shrink-0 shadow-sm whitespace-nowrap';
+          if (countSpan) countSpan.className = 'px-2 py-0.5 rounded-full text-xs font-semibold bg-primary-container text-on-primary-container';
+        } else {
+          btn.className = 'doctor-filter-pill inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium bg-surface-container-low text-on-surface hover:bg-surface-container transition-all shrink-0 whitespace-nowrap';
+          if (countSpan) countSpan.className = 'px-2 py-0.5 rounded-full text-xs font-semibold bg-surface-container text-on-surface-variant';
+        }
+      });
     }
 
     document.querySelector('[data-filter="all"]').addEventListener('click', () => {
       currentProviderFilter = 'all';
       updateFilterPills();
-      loadSlots();
+      renderSlots();
     });
 
-    function renderSlots(slots) {
+    function renderSlots() {
       const container = document.getElementById('slots-container');
       const searchInput = document.getElementById('search-input');
       const q = (searchInput.value || '').trim().toLowerCase();
 
-      const filtered = slots.filter(s => {
-        if (!q) return true;
-        return s.provider.toLowerCase().includes(q) || s.id.toLowerCase().includes(q);
-      });
+      // Filter by provider
+      let filtered = currentProviderFilter === 'all'
+        ? allSlots
+        : allSlots.filter(s => s.provider === currentProviderFilter);
+
+      // Filter by search query
+      if (q) {
+        filtered = filtered.filter(s => s.provider.toLowerCase().includes(q) || s.id.toLowerCase().includes(q));
+      }
 
       if (filtered.length === 0) {
         container.innerHTML = `
@@ -987,7 +1000,7 @@
       if (nextCursor) lookupPatientBookings(nextCursor);
     });
 
-    document.getElementById('search-input').addEventListener('input', () => renderSlots(allSlots));
+    document.getElementById('search-input').addEventListener('input', () => renderSlots());
     document.getElementById('refresh-slots-btn').addEventListener('click', loadSlots);
 
     // Initial load
