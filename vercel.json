@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "rewrites": [
+    { "source": "/slots", "destination": "/api/index.js" },
+    { "source": "/slots/(.*)", "destination": "/api/index.js" },
+    { "source": "/bookings", "destination": "/api/index.js" },
+    { "source": "/bookings/(.*)", "destination": "/api/index.js" },
+    { "source": "/reset", "destination": "/api/index.js" },
+    { "source": "/health", "destination": "/api/index.js" },
+    { "source": "/", "destination": "/client/index.html" },
+    { "source": "/(.*)", "destination": "/client/$1" }
+  ]
+}

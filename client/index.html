@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Apex Health Clinic — Outpatient Logistics & Consultation Portal</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+
+  <style>
+    @layer base {
+      html, body { margin: 0; padding: 0; }
+      body { overscroll-behavior: none; }
+    }
+    ::-webkit-scrollbar { display: none; }
+  </style>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "on-surface": "#0b1c30",
+            "background": "#f8f9ff",
+            "primary": "#00685f",
+            "primary-container": "#008378",
+            "on-primary": "#ffffff",
+            "on-primary-container": "#f4fffc",
+            "secondary": "#565e74",
+            "tertiary": "#006948",
+            "tertiary-container": "#00855d",
+            "surface-container-lowest": "#ffffff",
+            "surface-container-low": "#eff4ff",
+            "surface-container": "#e5eeff",
+            "surface-container-high": "#dce9ff",
+            "surface-container-highest": "#d3e4fe",
+            "on-surface-variant": "#3d4947",
+            "error": "#ba1a1a",
+            "error-container": "#ffdad6",
+            "on-error": "#ffffff",
+            "on-error-container": "#93000a"
+          },
+          fontFamily: {
+            headline: ["Plus Jakarta Sans", "sans-serif"],
+            body: ["Inter", "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="bg-background font-body text-on-surface antialiased min-h-screen flex flex-col">
+
+  <!-- Fixed Top Header -->
+  <header class="fixed top-0 w-full z-50 bg-background/90 backdrop-blur-md border-b border-surface-container">
+    <div class="h-16 max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-6">
+        <div class="flex items-center gap-2 cursor-pointer" onclick="switchTab('browse')">
+          <div class="w-8 h-8 rounded-lg bg-primary text-on-primary flex items-center justify-center font-bold text-lg shadow-sm">A</div>
+          <span class="font-headline text-lg tracking-tight font-bold text-on-surface">Apex Health</span>
+        </div>
+        <!-- Navigation Tab Switchers -->
+        <nav class="flex items-center gap-2">
+          <button id="nav-browse" type="button" onclick="switchTab('browse')" class="px-3 py-1.5 rounded-lg text-sm font-semibold transition-all bg-surface-container text-on-surface">
+            Browse Slots
+          </button>
+          <button id="nav-appointments" type="button" onclick="switchTab('appointments')" class="px-3 py-1.5 rounded-lg text-sm font-medium transition-all text-on-surface-variant hover:text-on-surface">
+            My Appointments
+          </button>
+        </nav>
+      </div>
+
+      <!-- Right Header Status Pill -->
+      <div class="flex items-center gap-3">
+        <div class="hidden sm:inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-container-low border border-surface-container">
+          <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-tertiary opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-tertiary"></span>
+          </span>
+          <span class="text-xs font-semibold text-tertiary tracking-wide uppercase">All Systems Live</span>
+        </div>
+        <div class="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-semibold text-sm">
+          <span class="material-symbols-outlined text-[18px]">person</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="flex-1 w-full pt-20 pb-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+
+      <!-- ======================================================== -->
+      <!-- TAB 1: BROWSE SLOTS VIEW                                -->
+      <!-- ======================================================== -->
+      <section id="view-browse" class="flex flex-col w-full">
+        <!-- Control Header -->
+        <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-8">
+          <div class="max-w-2xl">
+            <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-high text-primary mb-3">
+              <span class="material-symbols-outlined text-[16px]">verified_user</span>
+              <span class="text-xs uppercase tracking-wider font-semibold">Tier-1 Validated Schedule</span>
+            </div>
+            <h1 class="font-headline text-3xl sm:text-4xl text-on-surface font-bold tracking-tight">
+              Schedule Your Consultation
+            </h1>
+            <p class="text-on-surface-variant mt-2 text-base">
+              Choose a specialist and reserve a verified appointment slot in real time with synchronized institutional scheduling.
+            </p>
+          </div>
+
+          <!-- Quick Telemetry Strip -->
+          <div class="flex items-center gap-4 bg-surface-container-lowest p-3 rounded-xl border border-surface-container shadow-sm self-start lg:self-auto">
+            <div class="px-3">
+              <span class="text-[11px] text-on-surface-variant uppercase font-semibold block">Realtime Sync</span>
+              <span class="text-sm font-semibold text-tertiary flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-tertiary"></span> Active
+              </span>
+            </div>
+            <div class="h-8 w-px bg-surface-container"></div>
+            <div class="px-3">
+              <span class="text-[11px] text-on-surface-variant uppercase font-semibold block">Registry</span>
+              <span id="active-providers-count" class="text-sm font-semibold text-on-surface">Connecting...</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Filter Controls Toolbar -->
+        <div class="bg-surface-container-lowest p-4 rounded-xl border border-surface-container shadow-sm flex flex-col xl:flex-row items-stretch xl:items-center justify-between gap-4 mb-8">
+          <!-- Doctor Filter Pills -->
+          <div class="flex items-center gap-2 overflow-x-auto pb-1 xl:pb-0" id="doctor-filters">
+            <button class="doctor-filter-pill active-pill inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium bg-primary text-on-primary transition-all shrink-0 shadow-sm" data-filter="all" type="button">
+              <span>All Doctors</span>
+              <span id="all-slots-count" class="px-2 py-0.5 rounded-full text-xs font-semibold bg-primary-container text-on-primary-container">0</span>
+            </button>
+          </div>
+
+          <!-- Search & Refresh -->
+          <div class="flex items-center gap-2 shrink-0">
+            <div class="relative flex-1 sm:w-64">
+              <span class="material-symbols-outlined absolute left-3 top-2.5 text-on-surface-variant text-[20px]">search</span>
+              <input id="search-input" aria-label="Search procedures or doctors" class="w-full bg-surface-container-low text-on-surface pl-10 pr-4 py-2 rounded-lg text-sm placeholder:text-on-surface-variant focus:bg-surface-container-lowest focus:outline-none focus:ring-1 focus:ring-primary transition-colors" placeholder="Search provider or ID..." type="search"/>
+            </div>
+            <button id="refresh-slots-btn" class="h-10 px-3 flex items-center justify-center gap-1.5 rounded-lg bg-surface-container-low text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" title="Refresh slots" type="button">
+              <span class="material-symbols-outlined text-[18px]">refresh</span>
+              <span class="text-sm font-medium">Refresh</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Main Workspace Split: Slots Grid + Sidebar Receipt -->
+        <div class="grid grid-cols-1 xl:grid-cols-12 gap-8 items-start">
+          <!-- 8 Cols: Slots Grid -->
+          <div class="xl:col-span-8 flex flex-col gap-6">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <h2 class="font-headline text-xl text-on-surface font-semibold tracking-tight">Available Time Windows</h2>
+                <span class="text-xs uppercase px-2 py-0.5 bg-surface-container text-on-surface-variant font-semibold rounded">UTC</span>
+              </div>
+              <span id="last-updated-text" class="text-xs text-on-surface-variant">Synchronizing...</span>
+            </div>
+
+            <!-- Slots Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="slots-container">
+              <!-- Dynamically rendered -->
+            </div>
+          </div>
+
+          <!-- 4 Cols: Active Confirmation Receipt -->
+          <aside class="xl:col-span-4 flex flex-col gap-6">
+            <div class="bg-surface-container-lowest p-6 rounded-xl border border-surface-container shadow-md flex flex-col gap-4 relative overflow-hidden" id="confirmation-receipt-panel">
+              <div class="absolute top-0 left-0 right-0 h-1.5 bg-tertiary"></div>
+              
+              <div class="flex items-center justify-between pt-1">
+                <div class="flex items-center gap-2">
+                  <div class="w-7 h-7 rounded-full bg-surface-container flex items-center justify-center text-tertiary">
+                    <span class="material-symbols-outlined text-[18px]">verified</span>
+                  </div>
+                  <span class="font-headline text-base text-on-surface font-semibold">Active Booking</span>
+                </div>
+                <span id="receipt-id-badge" class="px-2.5 py-0.5 rounded-full font-mono text-xs bg-surface-container text-on-surface-variant font-medium">No Active Booking</span>
+              </div>
+
+              <p class="text-xs text-on-surface-variant" id="receipt-desc">
+                Select an available slot and complete the patient registration form to generate your digital consultation token.
+              </p>
+
+              <!-- Patient Summary Card -->
+              <div id="receipt-patient-card" class="bg-surface-container-low p-4 rounded-lg flex flex-col gap-2 opacity-50 transition-opacity">
+                <div class="flex items-center justify-between">
+                  <span class="text-[11px] text-on-surface-variant uppercase font-semibold">Patient Information</span>
+                  <span id="receipt-verified-badge" class="inline-flex items-center gap-1 text-xs text-tertiary font-semibold">
+                    <span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span> Pending
+                  </span>
+                </div>
+                <div class="flex items-center gap-3">
+                  <div id="receipt-avatar" class="w-9 h-9 rounded-full bg-primary text-on-primary flex items-center justify-center text-sm font-semibold shrink-0">
+                    --
+                  </div>
+                  <div class="min-w-0">
+                    <div id="receipt-patient-name" class="text-sm text-on-surface font-semibold truncate">—</div>
+                    <div id="receipt-patient-email" class="text-xs text-on-surface-variant font-mono truncate">—</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Specs Summary -->
+              <div class="space-y-2 text-sm border-t border-surface-container pt-3">
+                <div class="flex items-start justify-between">
+                  <span class="text-on-surface-variant text-xs">Specialist</span>
+                  <span id="receipt-provider" class="text-on-surface text-right font-medium text-xs">—</span>
+                </div>
+                <div class="flex items-start justify-between">
+                  <span class="text-on-surface-variant text-xs">Schedule</span>
+                  <span id="receipt-schedule" class="text-on-surface text-right font-mono text-xs">—</span>
+                </div>
+                <div class="flex items-start justify-between">
+                  <span class="text-on-surface-variant text-xs">Slot ID</span>
+                  <span id="receipt-slot-id" class="text-on-surface text-right font-mono text-xs">—</span>
+                </div>
+                <div class="flex items-start justify-between">
+                  <span class="text-on-surface-variant text-xs">Status</span>
+                  <span id="receipt-status-text" class="text-tertiary text-right font-semibold text-xs">None</span>
+                </div>
+              </div>
+
+              <!-- Cancellation Action Button -->
+              <div class="pt-2 flex flex-col gap-2">
+                <button class="w-full py-2 px-4 rounded-lg text-sm font-medium text-error bg-error-container/40 hover:bg-error-container transition-colors flex items-center justify-center gap-2 hidden" id="trigger-cancel-alert" type="button">
+                  <span class="material-symbols-outlined text-[16px]">cancel</span>
+                  <span>Cancel Appointment</span>
+                </button>
+
+                <!-- Warning Banner -->
+                <div class="hidden bg-error-container p-3 rounded-lg text-on-error-container text-xs flex flex-col gap-2" id="cancel-warning-banner">
+                  <div class="flex items-center gap-1.5 font-semibold">
+                    <span class="material-symbols-outlined text-[16px]">warning</span>
+                    <span>Confirm Cancellation?</span>
+                  </div>
+                  <p>Cancelling this booking immediately releases the slot back to the clinic queue.</p>
+                  <div class="flex items-center gap-3 mt-1">
+                    <button class="bg-error text-on-error px-3 py-1 rounded text-xs font-semibold" id="confirm-cancel-btn" type="button">Yes, Cancel</button>
+                    <button class="text-on-surface font-semibold underline" id="dismiss-cancel-btn" type="button">Keep Slot</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Clinic Info -->
+            <div class="bg-surface-container-lowest p-4 rounded-xl border border-surface-container shadow-sm flex flex-col gap-2">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <span class="material-symbols-outlined text-primary text-[18px]">location_on</span>
+                  <span class="text-sm font-semibold text-on-surface">Clinical Campus</span>
+                </div>
+                <span class="text-xs text-on-surface-variant">Gate B, Level 3</span>
+              </div>
+              <div class="w-full h-24 rounded-lg bg-surface-container-low flex flex-col items-center justify-center text-center p-2">
+                <span class="material-symbols-outlined text-primary text-2xl">local_hospital</span>
+                <span class="text-xs font-semibold text-on-surface mt-1">Apex Health Central Medical Complex</span>
+                <span class="text-[11px] text-on-surface-variant">Victoria Island · Main Wing</span>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- ======================================================== -->
+      <!-- TAB 2: MY APPOINTMENTS & VERIFICATION VIEW              -->
+      <!-- ======================================================== -->
+      <section id="view-appointments" class="hidden flex-col w-full">
+        <!-- Top Context -->
+        <div class="flex flex-col md:flex-row md:items-end justify-between pb-6 mb-6 border-b border-surface-container">
+          <div>
+            <div class="flex items-center gap-1.5 text-primary text-xs uppercase tracking-wider mb-2 font-semibold">
+              <span class="material-symbols-outlined text-[16px]">verified_user</span>
+              <span>Patient Identity Access Layer</span>
+            </div>
+            <h1 class="font-headline text-3xl sm:text-4xl text-on-surface font-bold tracking-tight">
+              My Appointments & Verification
+            </h1>
+            <p class="text-on-surface-variant mt-2 text-base">
+              Enter your registered email address to view, manage, or cancel your consultations.
+            </p>
+          </div>
+
+          <div class="mt-4 md:mt-0 flex items-center gap-3 bg-surface-container-low px-4 py-2 rounded-lg border border-surface-container">
+            <span class="material-symbols-outlined text-primary text-[18px]">lock</span>
+            <div class="flex flex-col">
+              <span class="text-xs text-on-surface font-semibold">Level 4 Verified Pagination</span>
+              <span class="text-[11px] text-on-surface-variant">Apex Central Registry #APX-4091</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Patient Lookup Box -->
+        <div class="bg-surface-container-lowest rounded-xl p-6 border border-surface-container shadow-sm mb-8">
+          <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+            <div class="flex-1 w-full">
+              <label class="block text-sm font-medium text-on-surface-variant mb-2" for="lookup-email-input">
+                Registered Clinical Email Address
+              </label>
+              <div class="flex flex-col sm:flex-row gap-2 items-stretch">
+                <div class="relative flex-1">
+                  <span class="material-symbols-outlined absolute left-3 top-2.5 text-on-surface-variant text-[20px]">search</span>
+                  <input class="w-full bg-surface-container-low text-on-surface pl-10 pr-4 py-2.5 rounded-lg text-sm focus:bg-surface-container-lowest focus:outline-none focus:ring-1 focus:ring-primary transition-colors" id="lookup-email-input" placeholder="e.g. ada@example.com" type="email" value=""/>
+                </div>
+                <button id="lookup-bookings-btn" class="bg-primary hover:bg-primary-container text-on-primary font-semibold text-sm px-6 py-2.5 rounded-lg flex items-center justify-center gap-2 transition-colors shadow-sm" type="button">
+                  <span class="material-symbols-outlined text-[18px]" id="lookup-icon">sync</span>
+                  <span id="lookup-text">Lookup Bookings</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Identity Status Pill -->
+            <div class="bg-surface-container-low rounded-lg p-4 w-full lg:w-auto flex items-center gap-3 border border-surface-container">
+              <div class="w-10 h-10 rounded-full bg-surface-container-lowest flex items-center justify-center shrink-0">
+                <span class="material-symbols-outlined text-tertiary text-[22px]">check_circle</span>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-xs text-tertiary uppercase tracking-wider font-semibold">Active Patient Session</span>
+                <span id="active-user-display" class="text-sm font-semibold text-on-surface">No Patient Queried</span>
+                <span class="text-[11px] text-on-surface-variant">Encrypted Outpatient Ledger Access</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Appointments List Container -->
+        <div class="grid grid-cols-12 gap-8 items-start">
+          <div class="col-span-12 lg:col-span-8 flex flex-col gap-6">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <h2 class="font-headline text-xl text-on-surface font-semibold">Scheduled Consultations</h2>
+                <span id="bookings-count-badge" class="bg-surface-container text-on-surface-variant px-2.5 py-0.5 rounded-lg text-xs font-semibold">0 Records</span>
+              </div>
+            </div>
+
+            <!-- Bookings List -->
+            <div class="flex flex-col gap-4" id="patient-bookings-list">
+              <div class="bg-surface-container-low p-8 text-center text-on-surface-variant rounded-xl border border-surface-container">
+                <span class="material-symbols-outlined text-4xl mb-2 text-primary">manage_search</span>
+                <p class="font-semibold text-on-surface">Enter your email above to inspect your bookings.</p>
+                <p class="text-xs text-on-surface-variant mt-1">Oldest to newest chronological records are displayed with cursor pagination.</p>
+              </div>
+            </div>
+
+            <!-- Cursor Pagination Control -->
+            <div id="pagination-container" class="hidden flex flex-col sm:flex-row items-center justify-between pt-4 text-on-surface-variant text-sm gap-4 border-t border-surface-container">
+              <span id="pagination-status-text">Showing page results</span>
+              <button id="load-more-btn" class="bg-surface-container-lowest hover:bg-surface-container text-on-surface font-semibold text-sm px-6 py-2 rounded-lg border border-surface-container transition-colors flex items-center gap-2 shadow-sm" type="button">
+                <span>Load more appointments</span>
+                <span class="material-symbols-outlined text-[18px]">keyboard_arrow_down</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Right Column Guidelines -->
+          <div class="col-span-12 lg:col-span-4 flex flex-col gap-6">
+            <div class="bg-surface-container-low rounded-xl p-6 border border-surface-container">
+              <div class="flex items-center gap-2 text-primary text-sm font-semibold mb-2">
+                <span class="material-symbols-outlined text-[18px]">verified</span>
+                <span>Cancellation & Schedule Protocol</span>
+              </div>
+              <p class="text-xs text-on-surface-variant leading-relaxed">
+                Confirmed appointments can be cancelled directly through this terminal. Once cancelled, the assigned slot is automatically freed and made available for public reassignment.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ======================================================== -->
+  <!-- MODAL: BOOK APPOINTMENT                                  -->
+  <!-- ======================================================== -->
+  <div class="fixed inset-0 z-50 bg-on-surface/40 backdrop-blur-sm hidden items-center justify-center p-4 overflow-y-auto" id="booking-modal-backdrop">
+    <div class="bg-surface-container-lowest w-full max-w-lg rounded-xl shadow-2xl overflow-hidden relative">
+      <!-- Modal Header -->
+      <div class="bg-surface-container-low px-6 py-4 flex items-center justify-between border-b border-surface-container">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-lg bg-primary text-on-primary flex items-center justify-center shadow-sm">
+            <span class="material-symbols-outlined text-[20px]">medical_services</span>
+          </div>
+          <div>
+            <h3 class="font-headline text-base text-on-surface font-semibold">Confirm Appointment</h3>
+            <p class="text-xs text-on-surface-variant">Real-time outpatient synchronization</p>
+          </div>
+        </div>
+        <button aria-label="Close dialog" class="w-8 h-8 rounded-full flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" id="close-modal-btn" type="button">
+          <span class="material-symbols-outlined text-[20px]">close</span>
+        </button>
+      </div>
+
+      <!-- Modal Form -->
+      <form class="p-6 flex flex-col gap-4" id="booking-form">
+        <input type="hidden" id="modal-slot-id" value=""/>
+
+        <!-- Read-Only Summary -->
+        <div class="bg-surface-container-low p-4 rounded-lg flex flex-col gap-1 border border-surface-container">
+          <div class="flex items-center justify-between">
+            <span class="text-[11px] text-on-surface-variant uppercase font-semibold">Selected Specialist & Slot</span>
+            <span class="inline-flex items-center gap-1 text-xs text-tertiary font-semibold uppercase">
+              <span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span> Slot Active
+            </span>
+          </div>
+          <div class="font-headline text-base text-on-surface font-semibold" id="modal-specialist-text">—</div>
+          <div class="flex items-center gap-1.5 font-mono text-xs text-on-surface-variant mt-1" id="modal-datetime-text">—</div>
+        </div>
+
+        <!-- Form Fields -->
+        <div class="flex flex-col gap-4">
+          <div class="flex flex-col gap-1">
+            <label class="text-xs font-semibold text-on-surface flex items-center justify-between" for="patient-name">
+              <span>Full Legal Name</span>
+              <span class="text-[11px] font-normal text-on-surface-variant">As on national ID</span>
+            </label>
+            <input class="w-full bg-surface-container-low text-on-surface px-3 py-2 rounded-lg text-sm border border-surface-container focus:bg-surface-container-lowest focus:outline-none focus:ring-2 focus:ring-primary transition-all" id="patient-name" placeholder="e.g. Ada Obi" required type="text"/>
+          </div>
+
+          <div class="flex flex-col gap-1">
+            <label class="text-xs font-semibold text-on-surface flex items-center justify-between" for="patient-email">
+              <span>Official Email Address</span>
+              <span class="text-[11px] font-normal text-on-surface-variant">Stored lowercase</span>
+            </label>
+            <input class="w-full bg-surface-container-low text-on-surface px-3 py-2 rounded-lg text-sm border border-surface-container focus:bg-surface-container-lowest focus:outline-none focus:ring-2 focus:ring-primary transition-all" id="patient-email" placeholder="ada@example.com" required type="email"/>
+          </div>
+
+          <!-- Error Alert Banner -->
+          <div id="booking-error-banner" class="hidden bg-error-container p-3 rounded-lg text-on-error-container text-xs flex items-center gap-2">
+            <span class="material-symbols-outlined text-[18px]">error</span>
+            <span id="booking-error-message">Error message</span>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="pt-2 flex items-center justify-end gap-3">
+          <button class="px-4 py-2 rounded-lg text-sm font-medium text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" id="cancel-modal-btn" type="button">
+            Cancel
+          </button>
+          <button class="px-6 py-2 rounded-lg text-sm font-semibold bg-primary hover:bg-primary-container text-on-primary transition-all shadow-sm flex items-center gap-2" id="submit-booking-btn" type="submit">
+            <span class="material-symbols-outlined text-[18px]" id="submit-icon">check</span>
+            <span id="submit-text">Confirm Booking</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="w-full bg-surface-container-lowest border-t border-surface-container py-6">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-on-surface-variant">
+      <div class="flex items-center gap-2">
+        <span class="font-headline font-semibold text-on-surface">Apex Health Clinic</span>
+        <span>• Clinical Scheduling System</span>
+      </div>
+      <div>
+        <span>Level 1–5 Compliant Architecture · Precision Outpatient Logistics</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Application Logic -->
+  <script>
+    // Global State & Config
+    const API_KEY = localStorage.getItem('clinic_api_key') || 'koya-clinic-key-2026';
+    const HEADERS = {
+      'Content-Type': 'application/json',
+      'X-API-Key': API_KEY
+    };
+
+    let allSlots = [];
+    let currentProviderFilter = 'all';
+    let activeBooking = null;
+    let nextCursor = null;
+    let currentLookupEmail = '';
+
+    // Tab Switching
+    function switchTab(tab) {
+      const viewBrowse = document.getElementById('view-browse');
+      const viewAppointments = document.getElementById('view-appointments');
+      const navBrowse = document.getElementById('nav-browse');
+      const navAppointments = document.getElementById('nav-appointments');
+
+      if (tab === 'browse') {
+        viewBrowse.classList.remove('hidden');
+        viewBrowse.classList.add('flex');
+        viewAppointments.classList.add('hidden');
+        viewAppointments.classList.remove('flex');
+
+        navBrowse.className = 'px-3 py-1.5 rounded-lg text-sm font-semibold transition-all bg-surface-container text-on-surface';
+        navAppointments.className = 'px-3 py-1.5 rounded-lg text-sm font-medium transition-all text-on-surface-variant hover:text-on-surface';
+      } else {
+        viewBrowse.classList.add('hidden');
+        viewBrowse.classList.remove('flex');
+        viewAppointments.classList.remove('hidden');
+        viewAppointments.classList.add('flex');
+
+        navAppointments.className = 'px-3 py-1.5 rounded-lg text-sm font-semibold transition-all bg-surface-container text-on-surface';
+        navBrowse.className = 'px-3 py-1.5 rounded-lg text-sm font-medium transition-all text-on-surface-variant hover:text-on-surface';
+
+        // Auto-focus lookup input if empty
+        const emailInput = document.getElementById('lookup-email-input');
+        if (!emailInput.value && activeBooking) {
+          emailInput.value = activeBooking.email;
+          lookupPatientBookings();
+        }
+      }
+    }
+
+    // Date formatting helpers
+    function formatTime(startIso, endIso) {
+      try {
+        const s = new Date(startIso).toISOString().substr(11, 5);
+        const e = new Date(endIso).toISOString().substr(11, 5);
+        return `${s} - ${e} UTC`;
+      } catch {
+        return `${startIso} - ${endIso}`;
+      }
+    }
+
+    function formatDate(isoString) {
+      try {
+        const d = new Date(isoString);
+        return d.toLocaleDateString('en-US', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' });
+      } catch {
+        return isoString;
+      }
+    }
+
+    // 1. Fetch & Render Slots (GET /slots)
+    async function loadSlots() {
+      const lastUpdated = document.getElementById('last-updated-text');
+      const slotsContainer = document.getElementById('slots-container');
+      lastUpdated.textContent = 'Synchronizing...';
+
+      try {
+        const url = currentProviderFilter === 'all' ? '/slots' : `/slots?provider=${encodeURIComponent(currentProviderFilter)}`;
+        const res = await fetch(url, { headers: HEADERS });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        allSlots = data.slots || [];
+        renderSlots(allSlots);
+        updateProviderFilters();
+        lastUpdated.textContent = `Live · ${new Date().toLocaleTimeString()}`;
+      } catch (err) {
+        console.error('Failed to load slots:', err);
+        slotsContainer.innerHTML = `
+          <div class="col-span-full p-8 text-center bg-error-container/20 rounded-xl text-error">
+            <span class="material-symbols-outlined text-4xl mb-2">cloud_off</span>
+            <p class="font-semibold">Unable to connect to slot registry</p>
+            <p class="text-xs text-on-surface-variant mt-1">${err.message}</p>
+          </div>
+        `;
+        lastUpdated.textContent = 'Offline';
+      }
+    }
+
+    function updateProviderFilters() {
+      const doctorFilters = document.getElementById('doctor-filters');
+      const allSlotsCount = document.getElementById('all-slots-count');
+      const activeProvidersCount = document.getElementById('active-providers-count');
+
+      const providers = new Map();
+      allSlots.forEach(s => {
+        providers.set(s.provider, (providers.get(s.provider) || 0) + 1);
+      });
+
+      allSlotsCount.textContent = allSlots.length;
+      activeProvidersCount.textContent = `${providers.size} Specialists Active`;
+
+      // Clear existing buttons except 'all'
+      const pills = doctorFilters.querySelectorAll('button:not([data-filter="all"])');
+      pills.forEach(p => p.remove());
+
+      providers.forEach((count, provider) => {
+        const btn = document.createElement('button');
+        const isActive = currentProviderFilter === provider;
+        btn.type = 'button';
+        btn.className = `doctor-filter-pill inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all shrink-0 ${
+          isActive ? 'bg-primary text-on-primary active-pill shadow-sm' : 'bg-surface-container-low text-on-surface hover:bg-surface-container'
+        }`;
+        btn.setAttribute('data-filter', provider);
+        btn.innerHTML = `
+          <span>${provider}</span>
+          <span class="px-2 py-0.5 rounded-full text-xs font-semibold ${
+            isActive ? 'bg-primary-container text-on-primary-container' : 'bg-surface-container text-on-surface-variant'
+          }">${count}</span>
+        `;
+        btn.addEventListener('click', () => {
+          currentProviderFilter = provider;
+          updateFilterPills();
+          loadSlots();
+        });
+        doctorFilters.appendChild(btn);
+      });
+    }
+
+    function updateFilterPills() {
+      const doctorFilters = document.getElementById('doctor-filters');
+      const allBtn = doctorFilters.querySelector('[data-filter="all"]');
+      if (currentProviderFilter === 'all') {
+        allBtn.className = 'doctor-filter-pill active-pill inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium bg-primary text-on-primary transition-all shrink-0 shadow-sm';
+      } else {
+        allBtn.className = 'doctor-filter-pill inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium bg-surface-container-low text-on-surface hover:bg-surface-container transition-all shrink-0';
+      }
+    }
+
+    document.querySelector('[data-filter="all"]').addEventListener('click', () => {
+      currentProviderFilter = 'all';
+      updateFilterPills();
+      loadSlots();
+    });
+
+    function renderSlots(slots) {
+      const container = document.getElementById('slots-container');
+      const searchInput = document.getElementById('search-input');
+      const q = (searchInput.value || '').trim().toLowerCase();
+
+      const filtered = slots.filter(s => {
+        if (!q) return true;
+        return s.provider.toLowerCase().includes(q) || s.id.toLowerCase().includes(q);
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div class="col-span-full p-12 text-center text-on-surface-variant bg-surface-container-lowest rounded-xl border border-surface-container">
+            <span class="material-symbols-outlined text-4xl mb-2 text-primary">event_busy</span>
+            <p class="font-semibold text-on-surface">No slots matching criteria</p>
+            <p class="text-xs text-on-surface-variant mt-1">Try resetting the filter or changing your search keyword.</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = filtered.map(slot => {
+        const isAvail = slot.available === true;
+        return `
+          <article class="bg-surface-container-lowest p-5 rounded-xl border border-surface-container shadow-sm hover:shadow-md transition-all flex flex-col justify-between relative overflow-hidden ${!isAvail ? 'opacity-70' : ''}">
+            ${isAvail ? '<div class="absolute top-0 left-0 w-1.5 h-full bg-tertiary"></div>' : ''}
+            <div>
+              <div class="flex items-start justify-between gap-2 mb-3">
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider ${
+                  isAvail ? 'bg-surface-container text-tertiary' : 'bg-surface-container text-secondary'
+                }">
+                  <span class="w-1.5 h-1.5 rounded-full ${isAvail ? 'bg-tertiary' : 'bg-secondary'}"></span>
+                  ${isAvail ? 'Available' : 'Booked'}
+                </span>
+                <span class="text-xs text-on-surface-variant font-mono">#${slot.id}</span>
+              </div>
+
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-sm shrink-0">
+                  ${slot.provider.replace('Dr ', '').substring(0, 2).toUpperCase()}
+                </div>
+                <div class="min-w-0">
+                  <h3 class="font-headline text-base text-on-surface font-semibold truncate">${slot.provider}</h3>
+                  <p class="text-xs text-on-surface-variant truncate">Consultation Suite · Main Wing</p>
+                </div>
+              </div>
+
+              <div class="bg-surface-container-low p-3 rounded-lg mb-4 flex flex-col gap-1 font-mono text-xs border border-surface-container">
+                <div class="flex items-center gap-1.5 text-on-surface font-medium">
+                  <span class="material-symbols-outlined text-[16px] text-primary">schedule</span>
+                  <span>${formatTime(slot.start, slot.end)}</span>
+                </div>
+                <div class="flex items-center gap-1.5 text-on-surface-variant">
+                  <span class="material-symbols-outlined text-[14px]">event</span>
+                  <span>${formatDate(slot.start)}</span>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              ${
+                isAvail
+                  ? `<button class="book-slot-trigger w-full bg-primary hover:bg-primary-container text-on-primary py-2 px-4 rounded-lg text-sm font-semibold transition-colors flex items-center justify-center gap-2 shadow-sm"
+                      data-id="${slot.id}" data-provider="${slot.provider}" data-start="${slot.start}" data-end="${slot.end}" type="button">
+                      <span>Book Slot</span>
+                      <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+                    </button>`
+                  : `<button class="w-full bg-surface-container text-on-surface-variant cursor-not-allowed py-2 px-4 rounded-lg text-sm font-medium flex items-center justify-center gap-1.5" disabled type="button">
+                      <span class="material-symbols-outlined text-[16px]">block</span>
+                      <span>Reserved</span>
+                    </button>`
+              }
+            </div>
+          </article>
+        `;
+      }).join('');
+
+      document.querySelectorAll('.book-slot-trigger').forEach(b => {
+        b.addEventListener('click', () => {
+          openBookingModal(
+            b.getAttribute('data-id'),
+            b.getAttribute('data-provider'),
+            b.getAttribute('data-start'),
+            b.getAttribute('data-end')
+          );
+        });
+      });
+    }
+
+    // 2. Booking Modal Logic
+    function openBookingModal(slotId, provider, start, end) {
+      document.getElementById('modal-slot-id').value = slotId;
+      document.getElementById('modal-specialist-text').textContent = `${provider} — Outpatient Consultation`;
+      document.getElementById('modal-datetime-text').textContent = `${formatDate(start)} · ${formatTime(start, end)}`;
+      document.getElementById('booking-error-banner').classList.add('hidden');
+
+      const modal = document.getElementById('booking-modal-backdrop');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeBookingModal() {
+      const modal = document.getElementById('booking-modal-backdrop');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    document.getElementById('close-modal-btn').addEventListener('click', closeBookingModal);
+    document.getElementById('cancel-modal-btn').addEventListener('click', closeBookingModal);
+
+    // 3. Submit Booking Form (POST /bookings)
+    document.getElementById('booking-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const errBanner = document.getElementById('booking-error-banner');
+      const errMsg = document.getElementById('booking-error-message');
+      const submitBtn = document.getElementById('submit-booking-btn');
+      const submitIcon = document.getElementById('submit-icon');
+      const submitText = document.getElementById('submit-text');
+
+      errBanner.classList.add('hidden');
+      submitBtn.disabled = true;
+      submitIcon.classList.add('animate-spin');
+      submitIcon.textContent = 'progress_activity';
+      submitText.textContent = 'Confirming...';
+
+      const slot_id = document.getElementById('modal-slot-id').value;
+      const name = document.getElementById('patient-name').value.trim();
+      const email = document.getElementById('patient-email').value.trim().toLowerCase();
+
+      try {
+        const res = await fetch('/bookings', {
+          method: 'POST',
+          headers: HEADERS,
+          body: JSON.stringify({ slot_id, name, email })
+        });
+
+        const data = await res.json();
+        if (!res.ok) {
+          throw new Error(data.error || `Error ${res.status}`);
+        }
+
+        activeBooking = data;
+        updateReceipt(data);
+        closeBookingModal();
+        loadSlots(); // Refresh slot availability
+      } catch (err) {
+        errMsg.textContent = err.message;
+        errBanner.classList.remove('hidden');
+      } finally {
+        submitBtn.disabled = false;
+        submitIcon.classList.remove('animate-spin');
+        submitIcon.textContent = 'check';
+        submitText.textContent = 'Confirm Booking';
+      }
+    });
+
+    // 4. Update Sidebar Receipt
+    function updateReceipt(booking) {
+      const idBadge = document.getElementById('receipt-id-badge');
+      const patientCard = document.getElementById('receipt-patient-card');
+      const avatar = document.getElementById('receipt-avatar');
+      const pName = document.getElementById('receipt-patient-name');
+      const pEmail = document.getElementById('receipt-patient-email');
+      const provider = document.getElementById('receipt-provider');
+      const schedule = document.getElementById('receipt-schedule');
+      const slotId = document.getElementById('receipt-slot-id');
+      const statusText = document.getElementById('receipt-status-text');
+      const cancelTrigger = document.getElementById('trigger-cancel-alert');
+      const cancelWarning = document.getElementById('cancel-warning-banner');
+
+      if (!booking || booking.status === 'cancelled') {
+        idBadge.textContent = 'No Active Booking';
+        patientCard.classList.add('opacity-50');
+        avatar.textContent = '--';
+        pName.textContent = '—';
+        pEmail.textContent = '—';
+        provider.textContent = '—';
+        schedule.textContent = '—';
+        slotId.textContent = '—';
+        statusText.textContent = booking ? 'Cancelled' : 'None';
+        statusText.className = 'text-error text-right font-semibold text-xs';
+        cancelTrigger.classList.add('hidden');
+        cancelWarning.classList.add('hidden');
+        return;
+      }
+
+      idBadge.textContent = `Ref: ${booking.id}`;
+      patientCard.classList.remove('opacity-50');
+      avatar.textContent = (booking.name || 'P').substring(0, 2).toUpperCase();
+      pName.textContent = booking.name;
+      pEmail.textContent = booking.email;
+      slotId.textContent = booking.slot_id;
+      statusText.textContent = 'Confirmed';
+      statusText.className = 'text-tertiary text-right font-semibold text-xs';
+
+      const slot = allSlots.find(s => s.id === booking.slot_id);
+      if (slot) {
+        provider.textContent = slot.provider;
+        schedule.textContent = `${formatDate(slot.start)} · ${formatTime(slot.start, slot.end)}`;
+      } else {
+        provider.textContent = 'Specialist Consultation';
+        schedule.textContent = new Date(booking.created_at).toUTCString();
+      }
+
+      cancelTrigger.classList.remove('hidden');
+      cancelWarning.classList.add('hidden');
+    }
+
+    // 5. Cancel Booking (DELETE /bookings/:id)
+    document.getElementById('trigger-cancel-alert').addEventListener('click', () => {
+      document.getElementById('cancel-warning-banner').classList.toggle('hidden');
+    });
+
+    document.getElementById('dismiss-cancel-btn').addEventListener('click', () => {
+      document.getElementById('cancel-warning-banner').classList.add('hidden');
+    });
+
+    document.getElementById('confirm-cancel-btn').addEventListener('click', async () => {
+      if (!activeBooking) return;
+      const btn = document.getElementById('confirm-cancel-btn');
+      btn.disabled = true;
+
+      try {
+        const res = await fetch(`/bookings/${activeBooking.id}`, {
+          method: 'DELETE',
+          headers: HEADERS
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
+
+        activeBooking = data;
+        updateReceipt(data);
+        loadSlots(); // Refresh slot availability
+        if (currentLookupEmail) {
+          lookupPatientBookings(); // Refresh appointments list if active
+        }
+      } catch (err) {
+        alert(`Cancellation error: ${err.message}`);
+      } finally {
+        btn.disabled = false;
+      }
+    });
+
+    // 6. Look Up Person's Bookings (GET /bookings?email=...)
+    async function lookupPatientBookings(cursor = null) {
+      const emailInput = document.getElementById('lookup-email-input');
+      const email = (emailInput.value || '').trim().toLowerCase();
+      if (!email) {
+        alert('Please enter a valid email address.');
+        return;
+      }
+
+      currentLookupEmail = email;
+      const listContainer = document.getElementById('patient-bookings-list');
+      const countBadge = document.getElementById('bookings-count-badge');
+      const userDisplay = document.getElementById('active-user-display');
+      const pagContainer = document.getElementById('pagination-container');
+      const loadMoreBtn = document.getElementById('load-more-btn');
+
+      if (!cursor) {
+        listContainer.innerHTML = '<div class="p-8 text-center text-sm text-on-surface-variant">Querying appointment ledger...</div>';
+      }
+
+      try {
+        let url = `/bookings?email=${encodeURIComponent(email)}&limit=10`;
+        if (cursor) {
+          url += `&cursor=${encodeURIComponent(cursor)}`;
+        }
+
+        const res = await fetch(url, { headers: HEADERS });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
+
+        userDisplay.textContent = email;
+        nextCursor = data.next_cursor;
+
+        const bookings = data.bookings || [];
+        countBadge.textContent = `${bookings.length} Record(s)`;
+
+        if (bookings.length === 0 && !cursor) {
+          listContainer.innerHTML = `
+            <div class="bg-surface-container-low p-8 text-center text-on-surface-variant rounded-xl border border-surface-container">
+              <span class="material-symbols-outlined text-3xl mb-2 text-on-surface-variant">inbox</span>
+              <p class="font-semibold text-on-surface">No bookings found for this email</p>
+              <p class="text-xs mt-1">Make sure you typed the exact email used during booking.</p>
+            </div>
+          `;
+          pagContainer.classList.add('hidden');
+          return;
+        }
+
+        const itemsHtml = bookings.map(b => {
+          const isConfirmed = b.status === 'confirmed';
+          return `
+            <div class="bg-surface-container-lowest rounded-xl p-5 border border-surface-container shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4 relative overflow-hidden">
+              <div class="absolute left-0 top-0 bottom-0 w-1 ${isConfirmed ? 'bg-primary' : 'bg-secondary'}"></div>
+              <div class="flex items-start gap-4">
+                <div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center shrink-0">
+                  <span class="material-symbols-outlined text-primary text-[22px]">stethoscope</span>
+                </div>
+                <div>
+                  <div class="flex flex-wrap items-center gap-2 mb-1">
+                    <span class="font-headline font-semibold text-on-surface">${b.name}</span>
+                    <span class="text-xs font-mono text-secondary bg-surface-container px-2 py-0.5 rounded">Ref: ${b.id}</span>
+                    <span class="text-xs font-mono text-on-surface-variant">Slot: #${b.slot_id}</span>
+                  </div>
+                  <div class="text-xs text-on-surface-variant font-mono">
+                    Created: ${new Date(b.created_at).toUTCString()}
+                  </div>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-3">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider ${
+                  isConfirmed ? 'bg-surface-container text-tertiary' : 'bg-error-container text-on-error-container'
+                }">
+                  <span class="w-1.5 h-1.5 rounded-full ${isConfirmed ? 'bg-tertiary' : 'bg-error'}"></span>
+                  ${b.status}
+                </span>
+
+                ${
+                  isConfirmed
+                    ? `<button class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-error-container/50 hover:bg-error-container text-error transition-colors"
+                        onclick="cancelSpecificBooking('${b.id}')" type="button">
+                        Cancel
+                      </button>`
+                    : ''
+                }
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        if (cursor) {
+          listContainer.insertAdjacentHTML('beforeend', itemsHtml);
+        } else {
+          listContainer.innerHTML = itemsHtml;
+        }
+
+        if (nextCursor) {
+          pagContainer.classList.remove('hidden');
+        } else {
+          pagContainer.classList.add('hidden');
+        }
+      } catch (err) {
+        listContainer.innerHTML = `
+          <div class="p-4 bg-error-container text-on-error-container rounded-lg text-xs">
+            Failed to query bookings: ${err.message}
+          </div>
+        `;
+      }
+    }
+
+    // Cancel specific booking from list
+    window.cancelSpecificBooking = async function(bookingId) {
+      if (!confirm(`Are you sure you want to cancel booking ${bookingId}?`)) return;
+      try {
+        const res = await fetch(`/bookings/${bookingId}`, {
+          method: 'DELETE',
+          headers: HEADERS
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
+
+        alert(`Booking ${bookingId} has been successfully cancelled.`);
+        lookupPatientBookings();
+        loadSlots(); // Refresh slot availability
+        if (activeBooking && activeBooking.id === bookingId) {
+          updateReceipt(null);
+        }
+      } catch (err) {
+        alert(`Error cancelling booking: ${err.message}`);
+      }
+    };
+
+    document.getElementById('lookup-bookings-btn').addEventListener('click', () => lookupPatientBookings());
+    document.getElementById('load-more-btn').addEventListener('click', () => {
+      if (nextCursor) lookupPatientBookings(nextCursor);
+    });
+
+    document.getElementById('search-input').addEventListener('input', () => renderSlots(allSlots));
+    document.getElementById('refresh-slots-btn').addEventListener('click', loadSlots);
+
+    // Initial load
+    loadSlots();
+  </script>
+</body>
+</html>
