@@ -16,6 +16,11 @@ if (isPostgres) {
     connectionString: process.env.DATABASE_URL,
     ssl: process.env.DATABASE_URL.includes('localhost') ? false : { rejectUnauthorized: false }
   });
+
+  // Handle transient network drops without crashing the process
+  pool.on('error', (err) => {
+    console.error('Database connection notice (e.g. network reconnecting):', err.message);
+  });
 }
 
 // Local file store fallback

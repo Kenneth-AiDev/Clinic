@@ -236,7 +236,11 @@ app.use((req, res) => {
 
 // Initialize database and start server
 async function start() {
-  await db.initDb();
+  try {
+    await db.initDb();
+  } catch (err) {
+    console.error('Initial DB connection notice (will reconnect when network is ready):', err.message);
+  }
   app.listen(PORT, () => {
     console.log(`Apex Health Clinic Booking API running on port ${PORT}`);
     console.log(`API Key set to: ${API_KEY}`);
