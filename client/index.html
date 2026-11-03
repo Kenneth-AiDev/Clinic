@@ -12,7 +12,13 @@
 
   <style>
     @layer base {
-      html, body { margin: 0; padding: 0; }
+      html, body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        max-width: 100vw;
+        overflow-x: hidden;
+      }
       body { overscroll-behavior: none; }
     }
     ::-webkit-scrollbar { display: none; }
@@ -54,36 +60,31 @@
     };
   </script>
 </head>
-<body class="bg-background font-body text-on-surface antialiased min-h-screen flex flex-col">
+<body class="bg-background font-body text-on-surface antialiased min-h-screen flex flex-col w-full max-w-full overflow-x-hidden">
 
   <!-- Fixed Top Header -->
-  <header class="fixed top-0 w-full z-50 bg-background/90 backdrop-blur-md border-b border-surface-container">
-    <div class="h-16 max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between gap-4">
-      <div class="flex items-center gap-6">
-        <div class="flex items-center gap-2 cursor-pointer" onclick="switchTab('browse')">
-          <div class="w-8 h-8 rounded-lg bg-primary text-on-primary flex items-center justify-center font-bold text-lg shadow-sm">A</div>
-          <span class="font-headline text-lg tracking-tight font-bold text-on-surface">Apex Health</span>
+  <header class="fixed top-0 w-full z-50 bg-background/95 backdrop-blur-md border-b border-surface-container">
+    <div class="h-16 max-w-7xl mx-auto px-3 sm:px-6 flex items-center justify-between gap-2 sm:gap-4">
+      <div class="flex items-center gap-2 sm:gap-6 min-w-0">
+        <div class="flex items-center gap-2 cursor-pointer shrink-0" onclick="switchTab('browse')">
+          <div class="w-8 h-8 rounded-lg bg-primary text-on-primary flex items-center justify-center font-bold text-base sm:text-lg shadow-sm">A</div>
+          <span class="font-headline text-base sm:text-lg tracking-tight font-bold text-on-surface whitespace-nowrap">Apex Health</span>
         </div>
         <!-- Navigation Tab Switchers -->
-        <nav class="flex items-center gap-2">
-          <button id="nav-browse" type="button" onclick="switchTab('browse')" class="px-3 py-1.5 rounded-lg text-sm font-semibold transition-all bg-surface-container text-on-surface">
-            Browse Slots
+        <nav class="flex items-center gap-1 sm:gap-2">
+          <button id="nav-browse" type="button" onclick="switchTab('browse')" class="px-2.5 sm:px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all bg-surface-container text-on-surface whitespace-nowrap">
+            <span class="sm:hidden">Browse</span>
+            <span class="hidden sm:inline">Browse Slots</span>
           </button>
-          <button id="nav-appointments" type="button" onclick="switchTab('appointments')" class="px-3 py-1.5 rounded-lg text-sm font-medium transition-all text-on-surface-variant hover:text-on-surface">
-            My Appointments
+          <button id="nav-appointments" type="button" onclick="switchTab('appointments')" class="px-2.5 sm:px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all text-on-surface-variant hover:text-on-surface whitespace-nowrap">
+            <span class="sm:hidden">Appointments</span>
+            <span class="hidden sm:inline">My Appointments</span>
           </button>
         </nav>
       </div>
 
-      <!-- Right Header Status Pill -->
-      <div class="flex items-center gap-3">
-        <div class="hidden sm:inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-container-low border border-surface-container">
-          <span class="relative flex h-2 w-2">
-            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-tertiary opacity-75"></span>
-            <span class="relative inline-flex rounded-full h-2 w-2 bg-tertiary"></span>
-          </span>
-          <span class="text-xs font-semibold text-tertiary tracking-wide uppercase">All Systems Live</span>
-        </div>
+      <!-- Right Header Profile -->
+      <div class="flex items-center gap-2 shrink-0">
         <div class="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-semibold text-sm">
           <span class="material-symbols-outlined text-[18px]">person</span>
         </div>
@@ -92,72 +93,74 @@
   </header>
 
   <!-- Main Content Container -->
-  <main class="flex-1 w-full pt-20 pb-12">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+  <main class="flex-1 w-full pt-20 pb-12 overflow-x-hidden">
+    <div class="max-w-7xl mx-auto px-3 sm:px-6">
 
       <!-- ======================================================== -->
       <!-- TAB 1: BROWSE SLOTS VIEW                                -->
       <!-- ======================================================== -->
-      <section id="view-browse" class="flex flex-col w-full">
+      <section id="view-browse" class="flex flex-col w-full min-w-0">
         <!-- Control Header -->
-        <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-8">
-          <div class="max-w-2xl">
-            <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-high text-primary mb-3">
-              <span class="material-symbols-outlined text-[16px]">verified_user</span>
-              <span class="text-xs uppercase tracking-wider font-semibold">Tier-1 Validated Schedule</span>
-            </div>
-            <h1 class="font-headline text-3xl sm:text-4xl text-on-surface font-bold tracking-tight">
+        <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-4 sm:gap-6 mb-6 sm:mb-8">
+          <div class="max-w-2xl min-w-0">
+            <h1 class="font-headline text-2xl sm:text-3xl lg:text-4xl text-on-surface font-bold tracking-tight break-words">
               Schedule Your Consultation
             </h1>
-            <p class="text-on-surface-variant mt-2 text-base">
+            <p class="text-on-surface-variant mt-2 text-xs sm:text-sm sm:leading-relaxed">
               Choose a specialist and reserve a verified appointment slot in real time with synchronized institutional scheduling.
             </p>
           </div>
 
           <!-- Quick Telemetry Strip -->
-          <div class="flex items-center gap-4 bg-surface-container-lowest p-3 rounded-xl border border-surface-container shadow-sm self-start lg:self-auto">
-            <div class="px-3">
-              <span class="text-[11px] text-on-surface-variant uppercase font-semibold block">Realtime Sync</span>
-              <span class="text-sm font-semibold text-tertiary flex items-center gap-1.5">
+          <div class="w-full sm:w-auto flex items-center justify-between sm:justify-start gap-3 sm:gap-4 bg-surface-container-lowest p-3 rounded-xl border border-surface-container shadow-sm self-stretch lg:self-auto shrink-0">
+            <div class="px-2 sm:px-3">
+              <span class="text-[10px] sm:text-[11px] text-on-surface-variant uppercase font-semibold block">Realtime Sync</span>
+              <span class="text-xs sm:text-sm font-semibold text-tertiary flex items-center gap-1.5">
                 <span class="w-2 h-2 rounded-full bg-tertiary"></span> Active
               </span>
             </div>
             <div class="h-8 w-px bg-surface-container"></div>
-            <div class="px-3">
-              <span class="text-[11px] text-on-surface-variant uppercase font-semibold block">Registry</span>
-              <span id="active-providers-count" class="text-sm font-semibold text-on-surface">Connecting...</span>
+            <div class="px-2 sm:px-3">
+              <span class="text-[10px] sm:text-[11px] text-on-surface-variant uppercase font-semibold block">Registry</span>
+              <span id="active-providers-count" class="text-xs sm:text-sm font-semibold text-on-surface">Connecting...</span>
             </div>
           </div>
         </div>
 
         <!-- Filter Controls Toolbar -->
-        <div class="bg-surface-container-lowest p-4 rounded-xl border border-surface-container shadow-sm flex flex-col xl:flex-row items-stretch xl:items-center justify-between gap-4 mb-8">
+        <div class="bg-surface-container-lowest p-3 sm:p-4 rounded-xl border border-surface-container shadow-sm flex flex-col xl:flex-row items-stretch xl:items-center justify-between gap-3 sm:gap-4 mb-6 sm:mb-8 max-w-full overflow-hidden">
           <!-- Doctor Filter Pills -->
-          <div class="flex items-center gap-2 overflow-x-auto pb-1 xl:pb-0" id="doctor-filters">
-            <button class="doctor-filter-pill active-pill inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium bg-primary text-on-primary transition-all shrink-0 shadow-sm" data-filter="all" type="button">
+          <div class="flex items-center gap-2 overflow-x-auto pb-2 xl:pb-0 min-w-0 max-w-full -mx-1 px-1" id="doctor-filters">
+            <button class="doctor-filter-pill active-pill inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium bg-primary text-on-primary transition-all shrink-0 shadow-sm whitespace-nowrap" data-filter="all" type="button">
               <span>All Doctors</span>
               <span id="all-slots-count" class="px-2 py-0.5 rounded-full text-xs font-semibold bg-primary-container text-on-primary-container">0</span>
             </button>
           </div>
 
           <!-- Search & Refresh -->
-          <div class="flex items-center gap-2 shrink-0">
-            <div class="relative flex-1 sm:w-64">
-              <span class="material-symbols-outlined absolute left-3 top-2.5 text-on-surface-variant text-[20px]">search</span>
-              <input id="search-input" aria-label="Search procedures or doctors" class="w-full bg-surface-container-low text-on-surface pl-10 pr-4 py-2 rounded-lg text-sm placeholder:text-on-surface-variant focus:bg-surface-container-lowest focus:outline-none focus:ring-1 focus:ring-primary transition-colors" placeholder="Search provider or ID..." type="search"/>
+          <div class="flex items-center gap-2 w-full xl:w-auto shrink-0">
+            <div class="relative flex-1 xl:w-64 min-w-0">
+              <span class="material-symbols-outlined absolute left-3 top-2.5 text-on-surface-variant text-[18px] sm:text-[20px]">search</span>
+              <input id="search-input" aria-label="Search procedures or doctors" class="w-full bg-surface-container-low text-on-surface pl-9 sm:pl-10 pr-3 py-2 rounded-lg text-xs sm:text-sm placeholder:text-on-surface-variant focus:bg-surface-container-lowest focus:outline-none focus:ring-1 focus:ring-primary transition-colors" placeholder="Search provider or ID..." type="search"/>
             </div>
-            <button id="refresh-slots-btn" class="h-10 px-3 flex items-center justify-center gap-1.5 rounded-lg bg-surface-container-low text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" title="Refresh slots" type="button">
+            <button id="refresh-slots-btn" class="h-9 sm:h-10 px-3 flex items-center justify-center gap-1.5 rounded-lg bg-surface-container-low text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors shrink-0" title="Refresh slots" type="button">
               <span class="material-symbols-outlined text-[18px]">refresh</span>
-              <span class="text-sm font-medium">Refresh</span>
+              <span class="hidden sm:inline text-xs sm:text-sm font-medium">Refresh</span>
             </button>
           </div>
         </div>
 
         <!-- Main Workspace Split: Slots Grid + Sidebar Receipt -->
-        <div class="grid grid-cols-1 xl:grid-cols-12 gap-8 items-start">
+        <div class="grid grid-cols-1 xl:grid-cols-12 gap-6 lg:gap-8 items-start">
           <!-- 8 Cols: Slots Grid -->
-          <div class="xl:col-span-8 flex flex-col gap-6">
-            <div class="flex items-center justify-between">
+          <div class="xl:col-span-8 flex flex-col gap-4 sm:gap-6 min-w-0">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <div class="flex items-center gap-2">
+                <h2 class="font-headline text-lg sm:text-xl text-on-surface font-semibold tracking-tight">Available Time Windows</h2>
+                <span class="text-[10px] sm:text-xs uppercase px-2 py-0.5 bg-surface-container text-on-surface-variant font-semibold rounded">UTC</span>
+              </div>
+              <span id="last-updated-text" class="text-xs text-on-surface-variant">Synchronizing...</span>
+            </div>
               <div class="flex items-center gap-2">
                 <h2 class="font-headline text-xl text-on-surface font-semibold tracking-tight">Available Time Windows</h2>
                 <span class="text-xs uppercase px-2 py-0.5 bg-surface-container text-on-surface-variant font-semibold rounded">UTC</span>
@@ -273,44 +276,36 @@
       <!-- ======================================================== -->
       <!-- TAB 2: MY APPOINTMENTS & VERIFICATION VIEW              -->
       <!-- ======================================================== -->
-      <section id="view-appointments" class="hidden flex-col w-full">
+      <section id="view-appointments" class="hidden flex-col w-full min-w-0">
         <!-- Top Context -->
-        <div class="flex flex-col md:flex-row md:items-end justify-between pb-6 mb-6 border-b border-surface-container">
-          <div>
+        <div class="flex flex-col md:flex-row md:items-end justify-between pb-6 mb-6 border-b border-surface-container gap-4">
+          <div class="min-w-0">
             <div class="flex items-center gap-1.5 text-primary text-xs uppercase tracking-wider mb-2 font-semibold">
               <span class="material-symbols-outlined text-[16px]">verified_user</span>
-              <span>Patient Identity Access Layer</span>
+              <span>Patient Appointments Portal</span>
             </div>
-            <h1 class="font-headline text-3xl sm:text-4xl text-on-surface font-bold tracking-tight">
+            <h1 class="font-headline text-2xl sm:text-3xl lg:text-4xl text-on-surface font-bold tracking-tight break-words">
               My Appointments & Verification
             </h1>
-            <p class="text-on-surface-variant mt-2 text-base">
+            <p class="text-on-surface-variant mt-2 text-xs sm:text-sm sm:leading-relaxed">
               Enter your registered email address to view, manage, or cancel your consultations.
             </p>
-          </div>
-
-          <div class="mt-4 md:mt-0 flex items-center gap-3 bg-surface-container-low px-4 py-2 rounded-lg border border-surface-container">
-            <span class="material-symbols-outlined text-primary text-[18px]">lock</span>
-            <div class="flex flex-col">
-              <span class="text-xs text-on-surface font-semibold">Level 4 Verified Pagination</span>
-              <span class="text-[11px] text-on-surface-variant">Apex Central Registry #APX-4091</span>
-            </div>
           </div>
         </div>
 
         <!-- Patient Lookup Box -->
-        <div class="bg-surface-container-lowest rounded-xl p-6 border border-surface-container shadow-sm mb-8">
-          <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
-            <div class="flex-1 w-full">
-              <label class="block text-sm font-medium text-on-surface-variant mb-2" for="lookup-email-input">
+        <div class="bg-surface-container-lowest rounded-xl p-4 sm:p-6 border border-surface-container shadow-sm mb-6 sm:mb-8">
+          <div class="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4 sm:gap-6">
+            <div class="flex-1 w-full min-w-0">
+              <label class="block text-xs sm:text-sm font-medium text-on-surface-variant mb-2" for="lookup-email-input">
                 Registered Clinical Email Address
               </label>
               <div class="flex flex-col sm:flex-row gap-2 items-stretch">
-                <div class="relative flex-1">
-                  <span class="material-symbols-outlined absolute left-3 top-2.5 text-on-surface-variant text-[20px]">search</span>
-                  <input class="w-full bg-surface-container-low text-on-surface pl-10 pr-4 py-2.5 rounded-lg text-sm focus:bg-surface-container-lowest focus:outline-none focus:ring-1 focus:ring-primary transition-colors" id="lookup-email-input" placeholder="e.g. ada@example.com" type="email" value=""/>
+                <div class="relative flex-1 min-w-0">
+                  <span class="material-symbols-outlined absolute left-3 top-2.5 text-on-surface-variant text-[18px] sm:text-[20px]">search</span>
+                  <input class="w-full bg-surface-container-low text-on-surface pl-9 sm:pl-10 pr-3 py-2.5 rounded-lg text-xs sm:text-sm focus:bg-surface-container-lowest focus:outline-none focus:ring-1 focus:ring-primary transition-colors" id="lookup-email-input" placeholder="e.g. ada@example.com" type="email" value=""/>
                 </div>
-                <button id="lookup-bookings-btn" class="bg-primary hover:bg-primary-container text-on-primary font-semibold text-sm px-6 py-2.5 rounded-lg flex items-center justify-center gap-2 transition-colors shadow-sm" type="button">
+                <button id="lookup-bookings-btn" class="w-full sm:w-auto bg-primary hover:bg-primary-container text-on-primary font-semibold text-xs sm:text-sm px-5 sm:px-6 py-2.5 rounded-lg flex items-center justify-center gap-2 transition-colors shadow-sm shrink-0" type="button">
                   <span class="material-symbols-outlined text-[18px]" id="lookup-icon">sync</span>
                   <span id="lookup-text">Lookup Bookings</span>
                 </button>
@@ -318,14 +313,13 @@
             </div>
 
             <!-- Identity Status Pill -->
-            <div class="bg-surface-container-low rounded-lg p-4 w-full lg:w-auto flex items-center gap-3 border border-surface-container">
-              <div class="w-10 h-10 rounded-full bg-surface-container-lowest flex items-center justify-center shrink-0">
-                <span class="material-symbols-outlined text-tertiary text-[22px]">check_circle</span>
+            <div class="bg-surface-container-low rounded-lg p-3 sm:p-4 w-full lg:w-auto flex items-center gap-3 border border-surface-container shrink-0">
+              <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-surface-container-lowest flex items-center justify-center shrink-0">
+                <span class="material-symbols-outlined text-tertiary text-[20px] sm:text-[22px]">check_circle</span>
               </div>
-              <div class="flex flex-col">
-                <span class="text-xs text-tertiary uppercase tracking-wider font-semibold">Active Patient Session</span>
-                <span id="active-user-display" class="text-sm font-semibold text-on-surface">No Patient Queried</span>
-                <span class="text-[11px] text-on-surface-variant">Encrypted Outpatient Ledger Access</span>
+              <div class="flex flex-col min-w-0">
+                <span class="text-[10px] sm:text-xs text-tertiary uppercase tracking-wider font-semibold">Active Patient Session</span>
+                <span id="active-user-display" class="text-xs sm:text-sm font-semibold text-on-surface truncate">No Patient Queried</span>
               </div>
             </div>
           </div>
@@ -428,7 +422,7 @@
           <div class="flex flex-col gap-1">
             <label class="text-xs font-semibold text-on-surface flex items-center justify-between" for="patient-email">
               <span>Official Email Address</span>
-              <span class="text-[11px] font-normal text-on-surface-variant">Stored lowercase</span>
+              <span class="text-[11px] font-normal text-on-surface-variant">Normalized format</span>
             </label>
             <input class="w-full bg-surface-container-low text-on-surface px-3 py-2 rounded-lg text-sm border border-surface-container focus:bg-surface-container-lowest focus:outline-none focus:ring-2 focus:ring-primary transition-all" id="patient-email" placeholder="ada@example.com" required type="email"/>
           </div>
@@ -462,7 +456,7 @@
         <span>• Clinical Scheduling System</span>
       </div>
       <div>
-        <span>Level 1–5 Compliant Architecture · Precision Outpatient Logistics</span>
+        <span>Institutional Outpatient Scheduling System</span>
       </div>
     </div>
   </footer>
@@ -495,16 +489,16 @@
         viewAppointments.classList.add('hidden');
         viewAppointments.classList.remove('flex');
 
-        navBrowse.className = 'px-3 py-1.5 rounded-lg text-sm font-semibold transition-all bg-surface-container text-on-surface';
-        navAppointments.className = 'px-3 py-1.5 rounded-lg text-sm font-medium transition-all text-on-surface-variant hover:text-on-surface';
+        navBrowse.className = 'px-2.5 sm:px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all bg-surface-container text-on-surface whitespace-nowrap';
+        navAppointments.className = 'px-2.5 sm:px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all text-on-surface-variant hover:text-on-surface whitespace-nowrap';
       } else {
         viewBrowse.classList.add('hidden');
         viewBrowse.classList.remove('flex');
         viewAppointments.classList.remove('hidden');
         viewAppointments.classList.add('flex');
 
-        navAppointments.className = 'px-3 py-1.5 rounded-lg text-sm font-semibold transition-all bg-surface-container text-on-surface';
-        navBrowse.className = 'px-3 py-1.5 rounded-lg text-sm font-medium transition-all text-on-surface-variant hover:text-on-surface';
+        navAppointments.className = 'px-2.5 sm:px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all bg-surface-container text-on-surface whitespace-nowrap';
+        navBrowse.className = 'px-2.5 sm:px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all text-on-surface-variant hover:text-on-surface whitespace-nowrap';
 
         // Auto-focus lookup input if empty
         const emailInput = document.getElementById('lookup-email-input');

@@ -4,6 +4,8 @@
 
 const fs = require('fs');
 const path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '..', '.env') });
+require('dotenv').config();
 const { Pool } = require('pg');
 
 let pool = null;
